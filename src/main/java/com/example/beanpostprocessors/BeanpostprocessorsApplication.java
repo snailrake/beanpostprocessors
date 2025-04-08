@@ -1,13 +1,25 @@
 package com.example.beanpostprocessors;
 
-import org.springframework.boot.SpringApplication;
+import com.example.beanpostprocessors.bean.BeanWithName;
+import com.example.beanpostprocessors.bean.DefaultBean;
+import com.example.beanpostprocessors.bean.DefaultSecondBean;
+import com.example.beanpostprocessors.bean.ToStringBean;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @SpringBootApplication
 public class BeanpostprocessorsApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BeanpostprocessorsApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        ApplicationContext ctx = new AnnotationConfigApplicationContext("com.example.beanpostprocessors");
+        BeanWithName testBean = ctx.getBean(BeanWithName.class);
+        DefaultBean defaultBean = ctx.getBean(DefaultBean.class);
+        DefaultSecondBean defaultSecondBean = ctx.getBean(DefaultSecondBean.class);
+        ToStringBean toStringBean = ctx.getBean(ToStringBean.class);
+        System.out.println(testBean.getName());
+        System.out.println(defaultBean.getName());
+        System.out.println(defaultSecondBean.getAge());
+        System.out.println(toStringBean);
+    }
 }

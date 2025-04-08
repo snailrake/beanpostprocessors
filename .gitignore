@@ -48,6 +48,8 @@ conf/application-local.conf
 **/logs/
 **/out/
 
+.gitattributes
+
 .ideaDataSources/*
 /src/main/resources/git.properties
 src/main/resources/application-local.properties
