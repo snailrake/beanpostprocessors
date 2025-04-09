@@ -1,10 +1,9 @@
-package com.example.beanpostprocessors.proxy;
+package com.example.beanpostprocessors.handler;
 
 import com.example.beanpostprocessors.annotation.ToString;
 import com.example.beanpostprocessors.enums.ToStringValue;
 import org.springframework.cglib.proxy.Enhancer;
-import org.springframework.cglib.proxy.MethodInterceptor;
-import org.springframework.cglib.proxy.MethodProxy;
+import org.springframework.cglib.proxy.InvocationHandler;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -17,7 +16,7 @@ public class ToStringProxy {
                 new ToStringProxyHandler(t));
     }
 
-    private static class ToStringProxyHandler implements MethodInterceptor {
+    private static class ToStringProxyHandler implements InvocationHandler {
 
         private Object target;
 
@@ -26,11 +25,11 @@ public class ToStringProxy {
         }
 
         @Override
-        public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             if (method.getName().equals("toString")) {
                 StringBuilder sb = new StringBuilder();
                 for (Field field : target.getClass().getDeclaredFields()) {
-                    if (isFieldToStringPositive(field) || isClassToStringNotNegative(target)) {
+                    if (isFieldToStringPositive(field) || (isClassToStringNotNegative(target) && isFieldToStringNotNegative(field))) {
                         field.setAccessible(true);
                         sb.append(field.getName());
                         sb.append("=");
@@ -39,7 +38,7 @@ public class ToStringProxy {
                 }
                 return sb.toString();
             } else {
-                return proxy.invokeSuper(obj, args);
+                return target.getClass().getDeclaredMethod(method.getName(), method.getParameterTypes()).invoke(target, args);
             }
         }
 
@@ -49,7 +48,13 @@ public class ToStringProxy {
         }
 
         private boolean isClassToStringNotNegative(Object target) {
-            return !target.getClass().isAnnotationPresent(ToString.class) || !target.getClass().getAnnotation(ToString.class).value().equals(ToStringValue.NO);
+            return !target.getClass().isAnnotationPresent(ToString.class)
+                    || !target.getClass().getAnnotation(ToString.class).value().equals(ToStringValue.NO);
+        }
+
+        private boolean isFieldToStringNotNegative(Field field) {
+            return !field.isAnnotationPresent(ToString.class)
+                    || !field.getAnnotation(ToString.class).value().equals(ToStringValue.NO);
         }
     }
 }

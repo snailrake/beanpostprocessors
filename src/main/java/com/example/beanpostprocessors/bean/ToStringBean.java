@@ -7,11 +7,11 @@ import static com.example.beanpostprocessors.enums.ToStringValue.NO;
 import static com.example.beanpostprocessors.enums.ToStringValue.YES;
 
 @Component
-@ToString(NO)
+@ToString(YES)
 public class ToStringBean {
 
     private String value = "value";
 
-    @ToString(YES)
+    @ToString(NO)
     private int secondValue = 1;
 }

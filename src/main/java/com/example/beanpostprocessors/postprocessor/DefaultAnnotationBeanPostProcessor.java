@@ -14,11 +14,11 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class DefaultFieldValuesFillerBeanPostProcessor implements BeanPostProcessor {
+public class DefaultAnnotationBeanPostProcessor implements BeanPostProcessor {
 
     private final ApplicationContext context;
 
-    public DefaultFieldValuesFillerBeanPostProcessor(ApplicationContext applicationContext) {
+    public DefaultAnnotationBeanPostProcessor(ApplicationContext applicationContext) {
         this.context = applicationContext;
     }
 
@@ -46,7 +46,7 @@ public class DefaultFieldValuesFillerBeanPostProcessor implements BeanPostProces
                     field.set(bean, fieldValue);
                 }
             } catch (Exception e) {
-                throw new BeanCreationException("Ошибка создания бина" + beanName, e);
+                throw new BeanCreationException("Ошибка создания бина " + beanName, e);
             }
         });
         return bean;

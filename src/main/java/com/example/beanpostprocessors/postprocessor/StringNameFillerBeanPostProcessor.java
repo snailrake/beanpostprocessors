@@ -22,7 +22,7 @@ public class StringNameFillerBeanPostProcessor implements BeanPostProcessor {
                 }
             }
         } catch (Exception e) {
-            throw new BeanCreationException("Ошибка при создании бина" + beanName, e);
+            throw new BeanCreationException("Ошибка при создании бина " + beanName, e);
         }
         return bean;
     }

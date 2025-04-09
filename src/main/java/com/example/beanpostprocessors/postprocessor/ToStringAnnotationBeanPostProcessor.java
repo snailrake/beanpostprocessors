@@ -1,7 +1,7 @@
 package com.example.beanpostprocessors.postprocessor;
 
 import com.example.beanpostprocessors.annotation.ToString;
-import com.example.beanpostprocessors.proxy.ToStringProxy;
+import com.example.beanpostprocessors.handler.ToStringProxy;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
 
 @Component
-public class ToStringBeanPostProcessor implements BeanPostProcessor {
+public class ToStringAnnotationBeanPostProcessor implements BeanPostProcessor {
 
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         if (hasToStringAnnotation(bean)) {
