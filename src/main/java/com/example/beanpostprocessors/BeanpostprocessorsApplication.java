@@ -17,7 +17,7 @@ public class BeanpostprocessorsApplication {
         DefaultBean defaultBean = ctx.getBean(DefaultBean.class);
         DefaultSecondBean defaultSecondBean = ctx.getBean(DefaultSecondBean.class);
         ToStringBean toStringBean = ctx.getBean(ToStringBean.class);
-        int random = ctx.getBean("random", Integer.class);
+        Integer random = ctx.getBean("random", Integer.class);
         int random2 = ctx.getBean("random", Integer.class);
         System.out.println(testBean.getName());
         System.out.println(defaultBean.getName());
